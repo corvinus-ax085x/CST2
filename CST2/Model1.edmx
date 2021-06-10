@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EtkeztetesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Fogasok">
+          <Key>
+            <PropertyRef Name="FogasID" />
+          </Key>
+          <Property Name="FogasID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FogasNev" Type="nvarchar" MaxLength="50" />
+          <Property Name="Kep" Type="image" />
+          <Property Name="Leiras" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="MennyisegiEgysegek">
+          <Key>
+            <PropertyRef Name="MennyisegiEgysegID" />
+          </Key>
+          <Property Name="MennyisegiEgysegID" Type="int" Nullable="false" />
+          <Property Name="EgysegNev" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Nyersanyagok">
+          <Key>
+            <PropertyRef Name="NyersanyagID" />
+          </Key>
+          <Property Name="NyersanyagID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NyersanyagNev" Type="nvarchar" MaxLength="50" />
+          <Property Name="MennyisegiEgysegID" Type="int" />
+          <Property Name="Egysegar" Type="money" />
+        </EntityType>
+        <EntityType Name="Receptek">
+          <Key>
+            <PropertyRef Name="ReceptID" />
+          </Key>
+          <Property Name="ReceptID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FogasID" Type="int" />
+          <Property Name="NyersanyagID" Type="int" />
+          <Property Name="Mennyiseg_4fo" Type="float" />
+        </EntityType>
+        <Association Name="FK_Nyersanyagok_MennyisegiEgysegek">
+          <End Role="MennyisegiEgysegek" Type="Self.MennyisegiEgysegek" Multiplicity="0..1" />
+          <End Role="Nyersanyagok" Type="Self.Nyersanyagok" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MennyisegiEgysegek">
+              <PropertyRef Name="MennyisegiEgysegID" />
+            </Principal>
+            <Dependent Role="Nyersanyagok">
+              <PropertyRef Name="MennyisegiEgysegID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receptek_Fogasok">
+          <End Role="Fogasok" Type="Self.Fogasok" Multiplicity="0..1" />
+          <End Role="Receptek" Type="Self.Receptek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fogasok">
+              <PropertyRef Name="FogasID" />
+            </Principal>
+            <Dependent Role="Receptek">
+              <PropertyRef Name="FogasID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receptek_Nyersanyagok">
+          <End Role="Nyersanyagok" Type="Self.Nyersanyagok" Multiplicity="0..1" />
+          <End Role="Receptek" Type="Self.Receptek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nyersanyagok">
+              <PropertyRef Name="NyersanyagID" />
+            </Principal>
+            <Dependent Role="Receptek">
+              <PropertyRef Name="NyersanyagID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EtkeztetesModelStoreContainer">
+          <EntitySet Name="Fogasok" EntityType="Self.Fogasok" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MennyisegiEgysegek" EntityType="Self.MennyisegiEgysegek" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nyersanyagok" EntityType="Self.Nyersanyagok" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Receptek" EntityType="Self.Receptek" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Nyersanyagok_MennyisegiEgysegek" Association="Self.FK_Nyersanyagok_MennyisegiEgysegek">
+            <End Role="MennyisegiEgysegek" EntitySet="MennyisegiEgysegek" />
+            <End Role="Nyersanyagok" EntitySet="Nyersanyagok" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receptek_Fogasok" Association="Self.FK_Receptek_Fogasok">
+            <End Role="Fogasok" EntitySet="Fogasok" />
+            <End Role="Receptek" EntitySet="Receptek" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receptek_Nyersanyagok" Association="Self.FK_Receptek_Nyersanyagok">
+            <End Role="Nyersanyagok" EntitySet="Nyersanyagok" />
+            <End Role="Receptek" EntitySet="Receptek" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EtkeztetesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Fogasok">
+          <Key>
+            <PropertyRef Name="FogasID" />
+          </Key>
+          <Property Name="FogasID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FogasNev" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Kep" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Leiras" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Receptek" Relationship="Self.FK_Receptek_Fogasok" FromRole="Fogasok" ToRole="Receptek" />
+        </EntityType>
+        <EntityType Name="MennyisegiEgysegek">
+          <Key>
+            <PropertyRef Name="MennyisegiEgysegID" />
+          </Key>
+          <Property Name="MennyisegiEgysegID" Type="Int32" Nullable="false" />
+          <Property Name="EgysegNev" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Nyersanyagok" Relationship="Self.FK_Nyersanyagok_MennyisegiEgysegek" FromRole="MennyisegiEgysegek" ToRole="Nyersanyagok" />
+        </EntityType>
+        <EntityType Name="Nyersanyagok">
+          <Key>
+            <PropertyRef Name="NyersanyagID" />
+          </Key>
+          <Property Name="NyersanyagID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NyersanyagNev" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MennyisegiEgysegID" Type="Int32" />
+          <Property Name="Egysegar" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="MennyisegiEgysegek" Relationship="Self.FK_Nyersanyagok_MennyisegiEgysegek" FromRole="Nyersanyagok" ToRole="MennyisegiEgysegek" />
+          <NavigationProperty Name="Receptek" Relationship="Self.FK_Receptek_Nyersanyagok" FromRole="Nyersanyagok" ToRole="Receptek" />
+        </EntityType>
+        <EntityType Name="Receptek">
+          <Key>
+            <PropertyRef Name="ReceptID" />
+          </Key>
+          <Property Name="ReceptID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FogasID" Type="Int32" />
+          <Property Name="NyersanyagID" Type="Int32" />
+          <Property Name="Mennyiseg_4fo" Type="Double" />
+          <NavigationProperty Name="Fogasok" Relationship="Self.FK_Receptek_Fogasok" FromRole="Receptek" ToRole="Fogasok" />
+          <NavigationProperty Name="Nyersanyagok" Relationship="Self.FK_Receptek_Nyersanyagok" FromRole="Receptek" ToRole="Nyersanyagok" />
+        </EntityType>
+        <Association Name="FK_Receptek_Fogasok">
+          <End Role="Fogasok" Type="Self.Fogasok" Multiplicity="0..1" />
+          <End Role="Receptek" Type="Self.Receptek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fogasok">
+              <PropertyRef Name="FogasID" />
+            </Principal>
+            <Dependent Role="Receptek">
+              <PropertyRef Name="FogasID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Nyersanyagok_MennyisegiEgysegek">
+          <End Role="MennyisegiEgysegek" Type="Self.MennyisegiEgysegek" Multiplicity="0..1" />
+          <End Role="Nyersanyagok" Type="Self.Nyersanyagok" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MennyisegiEgysegek">
+              <PropertyRef Name="MennyisegiEgysegID" />
+            </Principal>
+            <Dependent Role="Nyersanyagok">
+              <PropertyRef Name="MennyisegiEgysegID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receptek_Nyersanyagok">
+          <End Role="Nyersanyagok" Type="Self.Nyersanyagok" Multiplicity="0..1" />
+          <End Role="Receptek" Type="Self.Receptek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nyersanyagok">
+              <PropertyRef Name="NyersanyagID" />
+            </Principal>
+            <Dependent Role="Receptek">
+              <PropertyRef Name="NyersanyagID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EtkeztetesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Fogasok" EntityType="Self.Fogasok" />
+          <EntitySet Name="MennyisegiEgysegek" EntityType="Self.MennyisegiEgysegek" />
+          <EntitySet Name="Nyersanyagok" EntityType="Self.Nyersanyagok" />
+          <EntitySet Name="Receptek" EntityType="Self.Receptek" />
+          <AssociationSet Name="FK_Receptek_Fogasok" Association="Self.FK_Receptek_Fogasok">
+            <End Role="Fogasok" EntitySet="Fogasok" />
+            <End Role="Receptek" EntitySet="Receptek" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Nyersanyagok_MennyisegiEgysegek" Association="Self.FK_Nyersanyagok_MennyisegiEgysegek">
+            <End Role="MennyisegiEgysegek" EntitySet="MennyisegiEgysegek" />
+            <End Role="Nyersanyagok" EntitySet="Nyersanyagok" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receptek_Nyersanyagok" Association="Self.FK_Receptek_Nyersanyagok">
+            <End Role="Nyersanyagok" EntitySet="Nyersanyagok" />
+            <End Role="Receptek" EntitySet="Receptek" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EtkeztetesModelStoreContainer" CdmEntityContainer="EtkeztetesEntities">
+          <EntitySetMapping Name="Fogasok">
+            <EntityTypeMapping TypeName="EtkeztetesModel.Fogasok">
+              <MappingFragment StoreEntitySet="Fogasok">
+                <ScalarProperty Name="FogasID" ColumnName="FogasID" />
+                <ScalarProperty Name="FogasNev" ColumnName="FogasNev" />
+                <ScalarProperty Name="Kep" ColumnName="Kep" />
+                <ScalarProperty Name="Leiras" ColumnName="Leiras" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MennyisegiEgysegek">
+            <EntityTypeMapping TypeName="EtkeztetesModel.MennyisegiEgysegek">
+              <MappingFragment StoreEntitySet="MennyisegiEgysegek">
+                <ScalarProperty Name="MennyisegiEgysegID" ColumnName="MennyisegiEgysegID" />
+                <ScalarProperty Name="EgysegNev" ColumnName="EgysegNev" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nyersanyagok">
+            <EntityTypeMapping TypeName="EtkeztetesModel.Nyersanyagok">
+              <MappingFragment StoreEntitySet="Nyersanyagok">
+                <ScalarProperty Name="NyersanyagID" ColumnName="NyersanyagID" />
+                <ScalarProperty Name="NyersanyagNev" ColumnName="NyersanyagNev" />
+                <ScalarProperty Name="MennyisegiEgysegID" ColumnName="MennyisegiEgysegID" />
+                <ScalarProperty Name="Egysegar" ColumnName="Egysegar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Receptek">
+            <EntityTypeMapping TypeName="EtkeztetesModel.Receptek">
+              <MappingFragment StoreEntitySet="Receptek">
+                <ScalarProperty Name="ReceptID" ColumnName="ReceptID" />
+                <ScalarProperty Name="FogasID" ColumnName="FogasID" />
+                <ScalarProperty Name="NyersanyagID" ColumnName="NyersanyagID" />
+                <ScalarProperty Name="Mennyiseg_4fo" ColumnName="Mennyiseg_4fo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
